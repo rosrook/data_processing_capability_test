@@ -1,0 +1,17 @@
+.env
+models.yaml
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+output/
+data/hf_cache/
+data/hf_raw/
+data/seed/*.jsonl
+data/seed/domain_pools/
+data/seed_handwritten_backup/
+# keep source manifest if present
+!data/seed/SOURCES.json

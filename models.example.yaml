@@ -1,0 +1,35 @@
+# Copy to models.yaml. Keys/URLs are read from .env via *_env fields.
+#
+# Rough cost: calls ≈ (#models) × (#tasks) × (--limit)
+
+models:
+  # Default path: memtensor Chat Completions (https://api-int.memtensor.cn/...)
+  - name: gpt-memtensor
+    backend: memtensor
+    base_url_env: MODEL_gpt_memtensor_URL
+    api_key_env: MODEL_gpt_memtensor_KEY
+    model_env: GPT_API_MODEL
+    model: gpt-4o-2024-11-20
+    timeout_s: 120
+
+  # Add more memtensor models by changing model id (same URL/KEY):
+  # - name: gpt-4.1-mini-memtensor
+  #   backend: memtensor
+  #   base_url_env: MODEL_gpt_memtensor_URL
+  #   api_key_env: MODEL_gpt_memtensor_KEY
+  #   model: gpt-4.1-mini
+  #   timeout_s: 120
+
+  # External OpenAI-compatible vendors
+  # - name: qwen-plus
+  #   backend: openai_compat
+  #   base_url: https://dashscope.aliyuncs.com/compatible-mode/v1
+  #   api_key_env: QWEN_API_KEY
+  #   model: qwen-plus
+
+  # Company Gateway Responses API
+  # - name: gateway-gpt
+  #   backend: gateway
+  #   base_url_env: MODEL_gateway_gpt_URL
+  #   api_key_env: MODEL_gateway_gpt_KEY
+  #   model: gpt-5.5

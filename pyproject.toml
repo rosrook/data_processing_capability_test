@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dpc-bench"
+version = "0.1.0"
+description = "Data Processing Capability Benchmark for LLM-only rough multi-model ranking"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = [
+    "requests>=2.31",
+    "PyYAML>=6.0",
+]
+
+[project.optional-dependencies]
+hf = [
+    "datasets>=2.19",
+    "huggingface_hub>=0.23",
+    "pyarrow>=14.0",
+]
+dev = [
+    "pytest>=7.0",
+]
+
+[project.scripts]
+dpc-bench = "dpc_bench.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["dpc_bench*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -1,0 +1,83 @@
+{
+  "mode": "limit=400",
+  "limit_per_task": 400,
+  "seed": 42,
+  "endpoint": "https://hf-mirror.com",
+  "counts": {
+    "semantic_dedup": 71202,
+    "quality_filtering": 467424,
+    "instruction_generation": 51757,
+    "dataset_mixing": 30,
+    "format_repair": 400,
+    "quality_ranking": 400,
+    "diversity_selection": 400,
+    "reasoning_generation": 400,
+    "hard_sample_generation": 400,
+    "curriculum_scheduling": 400,
+    "data_utility_prediction": 400,
+    "corpus_filtering": 400,
+    "corpus_dedup": 400
+  },
+  "tasks": [
+    "corpus_dedup",
+    "corpus_filtering",
+    "curriculum_scheduling",
+    "data_utility_prediction",
+    "dataset_mixing",
+    "diversity_selection",
+    "format_repair",
+    "hard_sample_generation",
+    "instruction_generation",
+    "quality_filtering",
+    "quality_ranking",
+    "reasoning_generation",
+    "semantic_dedup"
+  ],
+  "raw_dir": "/Users/zhuxuzhou/Documents/Projects/modora_tasks/data_processing_capability_test/data/hf_raw",
+  "eval_note": "Run full seed with `dpc-bench run` (no --limit). Subsample with `--limit N`.",
+  "level1_note": "All tasks use HF-backed rows where possible. format_repair adds local corruption overlays on alpaca; curriculum difficulty uses GSM8K step markers.",
+  "sources": {
+    "semantic_dedup": [
+      "google-research-datasets/paws labeled_final train+validation+test",
+      "nyu-mll/glue mrpc train+validation+test"
+    ],
+    "quality_filtering": [
+      "HuggingFaceFW/fineweb-edu-llama3-annotations all data/ shards"
+    ],
+    "instruction_generation": [
+      "yahma/alpaca-cleaned full JSON"
+    ],
+    "dataset_mixing": [
+      "domain pools: alpaca + gsm8k main + humaneval + fineweb-edu annotations (score>=3)",
+      "scenario prompts in dataset_mixing.jsonl"
+    ],
+    "format_repair": [
+      "yahma/alpaca-cleaned full JSON",
+      "local JSON corruption overlays for repair targets"
+    ],
+    "quality_ranking": [
+      "HuggingFaceFW/fineweb-edu-llama3-annotations scores as gold ranking"
+    ],
+    "diversity_selection": [
+      "yahma/alpaca-cleaned instruction clusters"
+    ],
+    "reasoning_generation": [
+      "openai/gsm8k main train+test"
+    ],
+    "hard_sample_generation": [
+      "EleutherAI/hendrycks_math subjects as capabilities + exemplar/reference problems"
+    ],
+    "curriculum_scheduling": [
+      "openai/gsm8k ordered by solution-step difficulty heuristic"
+    ],
+    "data_utility_prediction": [
+      "HuggingFaceFW/fineweb-edu-llama3-annotations score as utility label"
+    ],
+    "corpus_dedup": [
+      "google-research-datasets/paws paraphrase pairs planted into multi-doc corpora"
+    ],
+    "corpus_filtering": [
+      "HuggingFaceFW/fineweb-edu-llama3-annotations mixed dirty batches; keep=score>=3"
+    ]
+  }
+}
