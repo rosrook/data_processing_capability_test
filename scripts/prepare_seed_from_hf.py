@@ -1172,6 +1172,8 @@ SOURCE_NOTES = {
 
 
 def main() -> None:
+    global SEED_DIR, RAW_DIR, BACKUP_DIR
+
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--limit-per-task",
@@ -1182,11 +1184,31 @@ def main() -> None:
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--tasks", default="all")
     parser.add_argument("--hf-endpoint", default=DEFAULT_ENDPOINT)
+    parser.add_argument(
+        "--seed-dir",
+        type=Path,
+        default=None,
+        help="Where to write seed JSONL / SOURCES.json (default: <repo>/data/seed)",
+    )
+    parser.add_argument(
+        "--raw-dir",
+        type=Path,
+        default=None,
+        help="Where to download HF raw files (default: <repo>/data/hf_raw)",
+    )
     args = parser.parse_args()
+
+    if args.seed_dir is not None:
+        SEED_DIR = Path(args.seed_dir).expanduser().resolve()
+    if args.raw_dir is not None:
+        RAW_DIR = Path(args.raw_dir).expanduser().resolve()
+    BACKUP_DIR = SEED_DIR.parent / "seed_handwritten_backup"
 
     endpoint = (args.hf_endpoint or DEFAULT_ENDPOINT).rstrip("/")
     print(f"HF endpoint: {endpoint}")
     print(f"limit_per_task: {args.limit_per_task or 'FULL'}")
+    print(f"seed_dir: {SEED_DIR}")
+    print(f"raw_dir: {RAW_DIR}")
 
     RAW_DIR.mkdir(parents=True, exist_ok=True)
     SEED_DIR.mkdir(parents=True, exist_ok=True)
